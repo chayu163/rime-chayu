@@ -1,34 +1,37 @@
 # 仓库上下文（给 agent）
 
-茶鱼的个人 Rime（小狼毫）配置仓库，基底为雾凇拼音 rime-ice 上游。用户目录 `%APPDATA%\Rime`，机器名 CHAYU。
+茶鱼的个人 Rime（小狼毫 0.17.4 / Windows）配置仓库，基底为雾凇拼音 rime-ice 上游。用户目录即本仓库根：`%APPDATA%\Rime`。GitHub：`chayu163/rime-chayu`（SSH 推送）。
 
-## 核心原则：补丁哲学
+## 文件地图
 
-**永不修改上游文件**。所有个人定制收敛在两个文件里，上游更新时直接覆盖上游文件即可：
+| 类别 | 文件 | 说明 |
+|---|---|---|
+| **个人定制（可改）** | `default.custom.yaml` | 方案列表、候选数 |
+| | `weasel.custom.yaml` | 8 套配色、字体栈、激活方案 |
+| | `preview/color_scheme_<id>.png` | 设定界面缩略图 |
+| 上游原样（勿改） | `rime_ice.schema.yaml` `default.yaml` `weasel.yaml` `cn_dicts/` `en_dicts/` `lua/` `opencc/` 等 | 更新时整体覆盖 |
 
-- `default.custom.yaml` — 行为：schema_list（仅 rime_ice）、候选数 6
-- `weasel.custom.yaml` — 外观：8 套 `茶鱼·` 配色、字体栈、激活方案
+## 操作流程：改外观配置
 
-## 关键事实（踩过的坑）
+1. 让用户**关闭小狼毫设定窗口**（开着会回写 `weasel.custom.yaml`，覆盖外部修改）
+2. 修改补丁文件
+3. `taskkill //IM WeaselDeployer.exe //F` 清掉单实例互斥，再执行 `"C:\Program Files\Rime\weasel-0.17.4\WeaselDeployer.exe" /deploy`
+4. 部署是异步的，等 25 秒后查 `%APPDATA%\Rime\build\` 验证；完整重建词库可能耗时数分钟
+5. 配色有增改时，同步重生成 `preview/` 缩略图（headless Chrome 在 `~/.cache/hyperframes/chrome`）
 
-- **小狼毫设定界面会回写 `weasel.custom.yaml`**：窗口开着时会用下拉框状态覆盖 `style/color_scheme`，且可能冲掉并发修改。改此文件前让用户关闭设定窗口，改完重新部署
-- **Rime 颜色格式是 `0xAABBGGRR`**（透明度/蓝/绿/红，BGR 字节序），从 CSS `#RRGGBB` 换算要反转 R/B
-- **半透明靠 back_color 的 AA 通道**，Weasel 只做 Alpha 透底、无模糊
-- **`rime_ice.userdb/` 是运行中的 leveldb 活数据库**，被 WeaselServer 锁定，勿动勿入库；词频备份的正确路径是用户词典同步（功能尚未调通，已搁置）
-- **部署**：`WeaselDeployer.exe /deploy`（先 taskkill 遗留的 WeaselDeployer，否则单实例互斥导致静默失败）；完整重建词库可能耗时数分钟
-- **`/sync` 参数存在但调不通**：源码有 `configurator.SyncUserData()`，实际运行无产物，原因未查明，已搁置
-- 设定界面的配色列表在**打开时刻**读取，部署完成后再打开才能看到新方案
-- **预览图**：`preview/color_scheme_<scheme_id>.png`，用 headless Chrome（`~/.cache/hyperframes/chrome`）按配色真实渲染生成，改配色后需同步更新
+## 硬事实
 
-## 字体栈
-
-`Times New Roman`（拉丁）→ `PingFang SC` → `Noto Sans SC`（中文，苹方未装时回退）→ emoji 链。写在 `weasel.custom.yaml` 的 `style/font_face`。
+- **Rime 颜色格式 `0xAABBGGRR`**（透明度/蓝/绿/红）：CSS `#RRGGBB` 换算时反转 R、B 两个字节；半透明只改 AA 通道，Weasel 透底无模糊
+- **设定界面的配色列表在打开时刻读取**：先部署完成，再打开设定窗口
+- **`rime_ice.userdb/` 是 WeaselServer 持锁的 leveldb 活数据库**：勿拷贝、勿入库；词频备份应走用户词典同步，但 `WeaselDeployer /sync` 实测无产物（源码 `configurator.SyncUserData()` 存在，原因未查明），已搁置
+- 部署器/服务异常时先查进程：遗留的 WeaselDeployer 会让新部署静默失败
+- 字体栈：`Times New Roman`（拉丁）→ `PingFang SC` → `Noto Sans SC`（中文回退）→ emoji 链，位于 `style/font_face`
 
 ## 提交规范
 
-配置变更后 commit；**不入库**：`build/`、`installation.yaml`、`user.yaml`、`*.userdb/`（见 .gitignore）。远程 `origin = git@github.com:chayu163/rime-chayu.git`（SSH，账号 chayu163）。
+配置变更后 commit 并 push。**不入库**（.gitignore 已配）：`build/`、`installation.yaml`、`user.yaml`、`*.userdb/`。历史首个提交含 57.8MB 的 `build/rime_ice.table.bin`（GitHub 仅警告），如需瘦身需重写历史 + 强推。
 
 ## 本机环境
 
-- Windows + 小狼毫 0.17.4，代理走 `127.0.0.1:7897`（shell 命令用 `px` 包裹），Node 用 mise
-- 设计画布（历史方案）：桌面 `小狼毫皮肤设计画布 v2.html`
+- 代理 `127.0.0.1:7897`，shell 命令用 `px` 包裹；Node 走 mise；默认 pwsh 7
+- 历史设计稿：桌面 `小狼毫皮肤设计画布 v2.html`
