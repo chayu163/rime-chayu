@@ -38,6 +38,8 @@
 
 **上游更新**：官方配方走东风破 plum——`bash rime-install iDvel/rime-ice:others/recipes/full`（全量）/ `all_dicts`（仅词库）；本仓库的 `recipe.yaml` 即此配方。手动更新 = 覆盖上游文件（见 README）。
 
+**文档防漂移**：`.github/workflows/upstream-watch.yml` 每周比对上游 README 哈希（基线存 `.upstream-watch.sha`），变更时自动开 issue 提醒核对 README 速查表与 AGENTS.md 速查。更新上游文件时，主动核对这两处并更新 README 中的快照日期戳。
+
 **YAML 规范**：配置文件两空格缩进、禁 Tab；词库文件词条用 **Tab** 分隔（`text\tcode\tweight`）；拼音词库勿放非拼音编码（会拖垮简拼），英文进 melt_eng，固定短语进 `custom_phrase.txt`（建议非完整编码，如 `的d`，否则无法造词）。
 
 **开关记忆**：`switches` 带 `reset: 0/1` 则每次部署回到默认；去掉 reset 并在 `default.custom.yaml` 写 `save_options` 可永久记住（须从方案选单切换，快捷键切换不记忆）。小狼毫仅中英状态是全局的。
