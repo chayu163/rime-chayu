@@ -2,7 +2,7 @@ customization:
   distribution_code_name: Weasel
   distribution_version: 0.17.4
   generator: "Weasel::UIStyleSettings"
-  modified_time: "Sat Sep  5 22:31:34 2026"
+  modified_time: "Sat Sep  5 22:43:04 2026"
   rime_version: 1.13.1
 patch:
   "preset_color_schemes/dianqing_glass":
@@ -125,7 +125,7 @@ patch:
     label_color: 0x80748A
     name: "茶鱼·胭脂暮色"
     text_color: 0xA29AB3
-  "style/color_scheme": wuling_glass
+  "style/color_scheme": xiangya_roman
   "style/color_scheme_dark": moyu_glass
   "style/comment_font_face": "Times New Roman"
   "style/comment_font_point": 11

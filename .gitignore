@@ -5,4 +5,14 @@ cn_dicts/temp.txt
 rime_console
 rime_deployer
 rime_patch
+
+# 机器生成物：部署缓存与安装标识
+build/
+installation.yaml
+user.yaml
+
+# 活数据库（运行时被锁，快照走 sync/）
 *.userdb/
+
+# 同步快照入库（词频备份）
+!sync/
