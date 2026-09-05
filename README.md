@@ -10,6 +10,18 @@
 - **预览图**：`preview/` 下按方案 id 存放设定界面缩略图
 - **设计稿**：`design/` 配色画布（浏览器打开），记录各方案的视觉依据与混搭思路
 
+## 配色预览
+
+| 茶鱼·雾岭玻璃 | 茶鱼·墨玉玻璃 | 茶鱼·靛青夜航 | 茶鱼·胭脂暮色 |
+|:---:|:---:|:---:|:---:|
+| ![雾岭](preview/color_scheme_wuling_glass.png) | ![墨玉](preview/color_scheme_moyu_glass.png) | ![靛青](preview/color_scheme_dianqing_glass.png) | ![胭脂](preview/color_scheme_yanzhi_glass.png) |
+
+| 茶鱼·象牙白新罗马 | 茶鱼·宋韵纸本 | 茶鱼·翡翠汽水 | 茶鱼·雪松印石 |
+|:---:|:---:|:---:|:---:|
+| ![象牙白](preview/color_scheme_xiangya_roman.png) | ![宋韵](preview/color_scheme_songyun_paper.png) | ![翡翠](preview/color_scheme_feicui_glass.png) | ![雪松](preview/color_scheme_xuesong_seal.png) |
+
+上排为玻璃半透明款（缩略图背景示意桌面透底效果），下排为不透明款。
+
 ## 安装
 
 前提：Windows + [小狼毫](https://rime.im/download/) 0.17.4+。
