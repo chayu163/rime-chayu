@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小狼毫皮肤 · 设计画布 v2</title>
+<!--
+  设计系统声明 v2
+  · 画布背景 #0F0F12 中性深灰；8 个方向分两组：质感玻璃（1-4）与纸感/平实高级（5-8）
+  · 候选窗 mock 严格对齐 Weasel 真实渲染：横排候选、行内预编辑、MS YaHei 14px 基准
+  · 字体栈与最终配置一致：拼音/英文 → Times New Roman；中文 → 苹方(PingFang SC) → 思源黑体(Noto Sans SC) 回退
+  · 玻璃方案用 CSS backdrop-filter 模拟 Weasel 的 back_color Alpha 通道半透明效果
+  · 本页只做视觉呈现，不含配置代码——选定后由助手写入 weasel.custom.yaml
+-->
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0F0F12; color: #E8E8EC;
+    font-family: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei", sans-serif;
+    padding: 48px 40px 64px;
+  }
+  header { max-width: 1280px; margin: 0 auto 40px; }
+  h1 { font-size: 28px; font-weight: 600; }
+  header p.sub { color: #8A8A94; margin-top: 10px; font-size: 14px; line-height: 1.7; max-width: 800px; }
+  .fonts-banner {
+    margin-top: 20px; padding: 14px 18px; border: 1px solid #26262E; border-radius: 10px;
+    background: #17171C; font-size: 13px; color: #B8B8C4; line-height: 1.8;
+  }
+  .fonts-banner b { color: #E8E8EC; font-weight: 500; }
+
+  .grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  @media (max-width: 1020px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: #17171C; border: 1px solid #26262E; border-radius: 14px; padding: 24px; }
+  .card h2 { font-size: 18px; font-weight: 600; display: flex; align-items: baseline; gap: 10px; }
+  .card h2 .num { font-family: "Times New Roman"; font-size: 15px; color: #6E6E78; }
+  .card p.pitch { color: #8A8A94; font-size: 13px; line-height: 1.65; margin: 8px 0 18px; }
+
+  /* ===== 壁纸条 + 候选窗 mock ===== */
+  .strip {
+    position: relative; border-radius: 10px; padding: 34px 22px;
+    display: flex; justify-content: center; overflow: hidden;
+  }
+  .strip::after {
+    content: "候选窗为半透明玻璃时，桌面颜色会透进来 —— 下方即模拟效果";
+    position: absolute; left: 14px; bottom: 8px; font-size: 10.5px; color: rgba(255,255,255,.5);
+    letter-spacing: .04em;
+  }
+  .win {
+    position: relative; z-index: 2; border-radius: 9px; padding: 8px 13px 9px;
+    font-family: "Times New Roman", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", serif;
+    font-size: 14px; line-height: 1.5; min-width: 320px;
+    border: 1px solid; box-shadow: 0 6px 22px rgba(0,0,0,.4);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  }
+  .preedit { font-size: 13px; margin-bottom: 4px; font-family: "Times New Roman", serif; letter-spacing: .02em; }
+  .cands { display: flex; gap: 13px; align-items: baseline; }
+  .cand { display: flex; gap: 5px; align-items: baseline; padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+  .cand .label { font-size: 12px; font-family: "Times New Roman", serif; }
+  .cand .word { font-size: 15px; font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+  .cand .comment { font-size: 11px; font-family: "Times New Roman", serif; margin-left: 2px; }
+
+  .chips { display: flex; gap: 8px; margin-top: 14px; align-items: center; }
+  .chip { width: 18px; height: 18px; border-radius: 5px; border: 1px solid rgba(255,255,255,.14); }
+  .chips .cl { font-size: 11px; color: #6E6E78; margin-left: 2px; }
+
+  footer { max-width: 1280px; margin: 44px auto 0; color: #8A8A94; font-size: 13px; line-height: 1.8; border-top: 1px solid #26262E; padding-top: 22px; }
+  footer b { color: #E8E8EC; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>小狼毫皮肤 · 设计画布 v2</h1>
+  <p class="sub">8 个方向，前 4 个主打「玻璃质感」（半透明候选框 + 模糊，桌面颜色透进来），后 4 个是纸感与平实高级路线，其中 5–8 为自由发挥。全部按真实渲染规格绘制，选定后我把配色与字体写入配置并重新部署。</p>
+  <div class="fonts-banner">
+    <b>字体方案（每个方向通用，画布已按此渲染）</b>：候选中文 → <b>苹方 PingFang SC</b>（你系统暂未安装，当前以思源黑体 Noto Sans SC 回退渲染，装上苹方后自动切换）；拼音、英文、序号 → <b>Times New Roman</b>。新罗马只作用于拉丁字符，不会影响汉字观感。
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- 1 雾岭 -->
+  <div class="card">
+    <h2><span class="num">01</span>雾岭 · 蓝灰玻璃</h2>
+    <p class="pitch">七成透的白玻璃浮在桌面上，边缘一道亮线，高亮是雾蓝浅底。白天干活最舒服的一款：存在感低，但边界始终清晰。</p>
+    <div class="strip" style="background: linear-gradient(125deg,#4A7BC8 0%,#6FB4D8 55%,#9CD3C8 100%);">
+      <div class="win" style="background: rgba(255,255,255,.72); border-color: rgba(255,255,255,.65); color:#2F3439;">
+        <div class="preedit" style="color:#4A5560;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: rgba(61,110,223,.14); color:#2F6BDF;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#8C959D;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#8C959D;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#8C959D;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:rgba(255,255,255,.72)"></span><span class="cl">窗体 72%</span>
+      <span class="chip" style="background:#2F6BDF"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#2F3439"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#8C959D"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 2 墨玉 -->
+  <div class="card">
+    <h2><span class="num">02</span>墨玉 · 深黑玻璃</h2>
+    <p class="pitch">近黑的深色玻璃，配一抹雾蓝高亮和暖白正文。深夜打字的质感天花板，边界靠一道比窗体亮一档的细线撑起来。</p>
+    <div class="strip" style="background: linear-gradient(130deg,#2A2340 0%,#40304E 50%,#5A3E5E 100%);">
+      <div class="win" style="background: rgba(18,19,22,.78); border-color: rgba(255,255,255,.16); color:#E4E6EB;">
+        <div class="preedit" style="color:#9BA2AE;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: rgba(122,162,247,.20); color:#8FB3FF;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#6E7482;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#6E7482;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#6E7482;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:rgba(18,19,22,.78)"></span><span class="cl">窗体 78%</span>
+      <span class="chip" style="background:#8FB3FF"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#E4E6EB"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#6E7482"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 3 靛青夜航 -->
+  <div class="card">
+    <h2><span class="num">03</span>靛青夜航</h2>
+    <p class="pitch">深靛蓝玻璃配青色高亮，冷色调里最精神的一个。代码编辑器深色主题的好搭档，青色只出现在选中项上，克制。</p>
+    <div class="strip" style="background: linear-gradient(125deg,#0F2E3D 0%,#14455A 55%,#1D6B7A 100%);">
+      <div class="win" style="background: rgba(16,22,31,.82); border-color: rgba(103,213,225,.25); color:#DEE7EC;">
+        <div class="preedit" style="color:#7E93A0;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: rgba(103,213,225,.16); color:#67D5E1;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#5E6E7A;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#5E6E7A;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#5E6E7A;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:rgba(16,22,31,.82)"></span><span class="cl">窗体 82%</span>
+      <span class="chip" style="background:#67D5E1"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#DEE7EC"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#5E6E7A"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 4 胭脂暮色 -->
+  <div class="card">
+    <h2><span class="num">04</span>胭脂暮色</h2>
+    <p class="pitch">自由发挥。暮色紫玻璃配胭脂粉高亮，暖色但在深底上压得住，一点不甜腻。四个玻璃款里个性最强的一个。</p>
+    <div class="strip" style="background: linear-gradient(125deg,#B4543E 0%,#8E3B5D 55%,#4A2C50 100%);">
+      <div class="win" style="background: rgba(30,22,30,.80); border-color: rgba(242,163,179,.28); color:#F0E4E6;">
+        <div class="preedit" style="color:#B39AA2;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: rgba(242,163,179,.18); color:#F2A3B3;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#8A7480;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#8A7480;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#8A7480;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:rgba(30,22,30,.80)"></span><span class="cl">窗体 80%</span>
+      <span class="chip" style="background:#F2A3B3"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#F0E4E6"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#8A7480"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 5 象牙白 · 新罗马 -->
+  <div class="card">
+    <h2><span class="num">05</span>象牙白 · 新罗马</h2>
+    <p class="pitch">不透明的象牙白，拼音注释用 Times New Roman 衬线体撑出书卷气，高亮是哑光古铜。安静、老派、有教养——把新罗马用得最体面的一款。</p>
+    <div class="strip" style="background: linear-gradient(130deg,#D9CDB8 0%,#C9BCA4 100%);">
+      <div class="win" style="background: #FBFAF5; border-color: #E2DCCC; color:#33312C; box-shadow: 0 5px 18px rgba(60,50,30,.28); -webkit-backdrop-filter:none; backdrop-filter:none;">
+        <div class="preedit" style="color:#7A7466;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: #F2EDE0; color:#8C6F3F;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#A9A392;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#A9A392;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#A9A392;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:#FBFAF5"></span><span class="cl">窗体</span>
+      <span class="chip" style="background:#8C6F3F"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#33312C"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#A9A392"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 6 宋韵纸本 -->
+  <div class="card">
+    <h2><span class="num">06</span>宋韵纸本</h2>
+    <p class="pitch">上一版宣纸方案的质感升级：纸色更沉着，朱砂只落在选中的字上，边框换成一道近不可见的暖线。中式但完全不复古。</p>
+    <div class="strip" style="background: linear-gradient(130deg,#D8C8A8 0%,#C4B08A 100%);">
+      <div class="win" style="background: #F9F5EC; border-color: #E6DCC8; color:#3A3830; box-shadow: 0 5px 18px rgba(70,55,30,.30); -webkit-backdrop-filter:none; backdrop-filter:none;">
+        <div class="preedit" style="color:#8A8270;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: transparent; color:#B03A2E;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#A89F8B;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#A89F8B;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#A89F8B;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:#F9F5EC"></span><span class="cl">窗体</span>
+      <span class="chip" style="background:#B03A2E"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#3A3830"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#A89F8B"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 7 翡翠汽水 -->
+  <div class="card">
+    <h2><span class="num">07</span>翡翠汽水</h2>
+    <p class="pitch">自由发挥。淡薄荷玻璃，青翠高亮，是全套里唯一带「气泡感」的——年轻一点，但不幼稚，适合浅色壁纸。</p>
+    <div class="strip" style="background: linear-gradient(125deg,#5ABF9A 0%,#3E9E8E 60%,#2E7D74 100%);">
+      <div class="win" style="background: rgba(240,252,247,.70); border-color: rgba(255,255,255,.60); color:#233B34;">
+        <div class="preedit" style="color:#5A7A6E;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: rgba(14,159,119,.14); color:#0B8A66;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#7E9A8F;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#7E9A8F;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#7E9A8F;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:rgba(240,252,247,.70)"></span><span class="cl">窗体 70%</span>
+      <span class="chip" style="background:#0B8A66"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#233B34"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#7E9A8F"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+  <!-- 8 雪松印石 -->
+  <div class="card">
+    <h2><span class="num">08</span>雪松印石</h2>
+    <p class="pitch">自由发挥。纯白、发丝线边框、近黑正文——唯一的颜色是选中之字上的一方「印石红」，像盖了一枚小印章。五个平实款里最利落的。</p>
+    <div class="strip" style="background: linear-gradient(130deg,#B9BEC6 0%,#9AA1AC 100%);">
+      <div class="win" style="background: #FFFFFF; border-color: #ECECEE; color:#1C1C1E; box-shadow: 0 5px 18px rgba(0,0,0,.30); -webkit-backdrop-filter:none; backdrop-filter:none;">
+        <div class="preedit" style="color:#8A8A90;">nihao</div>
+        <div class="cands">
+          <span class="cand" style="background: #FBF1F0; color:#C73E3A;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+          <span class="cand"><span class="label" style="color:#A5A5AC;">2.</span><span class="word">你号</span></span>
+          <span class="cand"><span class="label" style="color:#A5A5AC;">3.</span><span class="word">尼好</span></span>
+          <span class="cand"><span class="label" style="color:#A5A5AC;">4.</span><span class="word">泥嚎</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip" style="background:#FFFFFF"></span><span class="cl">窗体</span>
+      <span class="chip" style="background:#C73E3A"></span><span class="cl">高亮</span>
+      <span class="chip" style="background:#1C1C1E"></span><span class="cl">正文</span>
+      <span class="chip" style="background:#A5A5AC"></span><span class="cl">序号</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <b>怎么看</b>：玻璃款（01–04、07）的「窗体 xx%」指半透明程度，真机上桌面颜色会实时透进来；不透明款（05、06、08）质感来自配色与边框层次本身。<br>
+  <b>怎么选</b>：报编号即可，支持混搭——比如「01 浅色 + 02 深色跟随系统」「06 但高亮换成 05 的古铜」。<br>
+  <b>可调项</b>：透明度（60%–85% 任调）、圆角改直角、隐藏拼音注释、字号、高亮只变色不垫底（06 的做法）。
+</footer>
+
+</body>
+</html>

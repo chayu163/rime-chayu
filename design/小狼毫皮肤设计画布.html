@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小狼毫皮肤 · 设计画布</title>
+<!--
+  设计系统声明
+  · 画布背景: #101014 中性深灰，衬托浅色/深色两种候选窗
+  · 画布 UI 字体: Segoe UI Variable / Segoe UI；候选窗 mock 严格用 Microsoft YaHei 14px（与 Weasel 默认一致）
+  · 候选窗 mock 规格对齐真实渲染: 横排候选、行内预编辑、小号拼音注释、8px 圆角、1px 边框、浅投影
+  · 4 个方向: A 保守 → D 渐新颖；每个卡片附可直接粘贴的 weasel.custom.yaml 片段（0xBBGGRR 格式）
+-->
+<style>
+  :root {
+    --canvas-bg: #101014;
+    --canvas-fg: #e8e8ec;
+    --canvas-dim: #8a8a94;
+    --card-bg: #17171c;
+    --card-border: #26262e;
+    --code-bg: #0c0c10;
+    --code-fg: #b8b8c4;
+    --accent: #e8731a; /* 谷歌蓝 #1A73E8 的 BGR 形式，呼应主题 */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--canvas-bg);
+    color: var(--canvas-fg);
+    font-family: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei", sans-serif;
+    padding: 48px 40px 64px;
+  }
+  header { max-width: 1240px; margin: 0 auto 40px; }
+  h1 { font-size: 28px; font-weight: 600; letter-spacing: .01em; }
+  header p.sub { color: var(--canvas-dim); margin-top: 10px; font-size: 14px; line-height: 1.7; max-width: 760px; }
+  .system {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-top: 18px;
+    font-size: 12.5px; color: var(--canvas-dim);
+  }
+  .system span b { color: var(--canvas-fg); font-weight: 500; }
+
+  .grid {
+    max-width: 1240px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+  }
+  @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 14px; padding: 26px 26px 22px;
+  }
+  .card .tag {
+    display: inline-block; font-size: 11px; letter-spacing: .08em;
+    color: var(--canvas-dim); border: 1px solid var(--card-border);
+    border-radius: 99px; padding: 3px 10px; margin-bottom: 12px;
+  }
+  .card h2 { font-size: 19px; font-weight: 600; }
+  .card p.pitch { color: var(--canvas-dim); font-size: 13px; line-height: 1.65; margin: 8px 0 22px; }
+
+  /* ===== 候选窗 mock（统一组件，仅换色） ===== */
+  .win {
+    display: inline-block; border-radius: 8px; padding: 8px 12px 9px;
+    font-family: "Microsoft YaHei"; font-size: 14px; line-height: 1.5;
+    border: 1px solid; box-shadow: 0 4px 16px rgba(0,0,0,.35);
+    min-width: 300px;
+  }
+  .preedit { font-size: 13px; margin-bottom: 4px; }
+  .preedit .raw { letter-spacing: .02em; }
+  .cands { display: flex; gap: 14px; align-items: baseline; }
+  .cand { display: flex; gap: 4px; align-items: baseline; padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+  .cand .label { font-size: 12px; }
+  .cand .word { font-size: 15px; }
+  .cand .comment { font-size: 11px; margin-left: 2px; }
+  .cand.hilited { border-radius: 6px; padding: 2px 7px; }
+
+  .dark-note { font-size: 11.5px; color: var(--canvas-dim); margin-top: 12px; }
+
+  /* ===== yaml 片段 ===== */
+  pre.yaml {
+    margin-top: 16px; background: var(--code-bg); border: 1px solid var(--card-border);
+    border-radius: 8px; padding: 14px 16px; font-size: 12px; line-height: 1.75;
+    font-family: Consolas, "Cascadia Mono", monospace; color: var(--code-fg);
+    overflow-x: auto;
+  }
+  pre.yaml .k { color: #9cc7ff; }
+  pre.yaml .c { color: #63636e; }
+  footer {
+    max-width: 1240px; margin: 44px auto 0; color: var(--canvas-dim);
+    font-size: 13px; line-height: 1.8; border-top: 1px solid var(--card-border); padding-top: 22px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>小狼毫皮肤 · 设计画布</h1>
+  <p class="sub">四个方向均按真实渲染规格绘制：横排候选、行内预编辑、Microsoft YaHei 14px。每个卡片下方是可直接应用的 <code>weasel.custom.yaml</code> 片段（Rime 颜色为 0xBBGGRR 字节序，已从设计稿换算）。可以混搭——比如 C 的配色 + B 的深色模式。</p>
+  <div class="system">
+    <span><b>布局</b>：横排（rime-ice 默认）</span>
+    <span><b>字体</b>：Microsoft YaHei / label YaHei 14px</span>
+    <span><b>候选数</b>：6</span>
+    <span><b>配色入口</b>：weasel.custom.yaml → preset_color_schemes</span>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- A 谷歌蓝精修 -->
+  <div class="card">
+    <span class="tag">A · 保守</span>
+    <h2>谷歌蓝 · 精修</h2>
+    <p class="pitch">你现在 google 配色的提纯版：更克制的灰阶层次，高亮只用一层浅蓝底 + 蓝字，注释降到二级灰。零适应成本，和 Windows 11 浅色模式融为一体。</p>
+    <div class="win" style="background:#ffffff;border-color:#dadce0;color:#3c4043;">
+      <div class="preedit"><span class="raw" style="color:#202124;">nihao</span></div>
+      <div class="cands">
+        <span class="cand hilited" style="background:#e8f0fe;color:#1a73e8;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+        <span class="cand"><span class="label" style="color:#9aa0a6;">2.</span><span class="word">你号</span></span>
+        <span class="cand"><span class="label" style="color:#9aa0a6;">3.</span><span class="word">尼好</span></span>
+        <span class="cand"><span class="label" style="color:#9aa0a6;">4.</span><span class="word">泥嚎</span></span>
+      </div>
+    </div>
+    <p class="dark-note">深色模式建议：直接沿用 B 或 D 的深色底，高亮蓝保持一致。</p>
+    <pre class="yaml"><span class="c"># A 谷歌蓝 · 精修</span>
+<span class="k">preset_color_schemes/google_refined</span>:
+  name: 谷歌蓝精修
+  back_color: 0xFFFFFF
+  border_color: 0xDADCE0
+  fore_color: 0x3C4043
+  text_color: 0x212420          <span class="c"># 预编辑</span>
+  hilited_back_color: 0xFEF0E8  <span class="c"># #E8F0FE → BGR</span>
+  hilited_text_color: 0xE8731A  <span class="c"># #1A73E8 → BGR</span>
+  label_color: 0xA6A09A
+  comment_text_color: 0x8B8680
+  candidate_text_color: 0x3C4043
+  hilited_candidate_text_color: 0xE8731A
+  hilited_candidate_back_color: 0xFEF0E8
+  hilited_comment_text_color: 0x68635F</pre>
+  </div>
+
+  <!-- B 暗夜石墨 -->
+  <div class="card">
+    <span class="tag">B · 深色</span>
+    <h2>暗夜石墨</h2>
+    <p class="pitch">只做深色：石墨底、雾蓝高亮，边框比背景亮一档代替投影。适合深夜写代码，不刺眼、候选边界清晰；白天用会显得沉。</p>
+    <div class="win" style="background:#1f2023;border-color:#33343a;color:#d8dae0;">
+      <div class="preedit"><span class="raw">nihao</span></div>
+      <div class="cands">
+        <span class="cand hilited" style="background:#2b3140;color:#7aa2f7;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+        <span class="cand"><span class="label" style="color:#6b7080;">2.</span><span class="word">你号</span></span>
+        <span class="cand"><span class="label" style="color:#6b7080;">3.</span><span class="word">尼好</span></span>
+        <span class="cand"><span class="label" style="color:#6b7080;">4.</span><span class="word">泥嚎</span></span>
+      </div>
+    </div>
+    <p class="dark-note">浅色模式建议：回退 A 或 D，color_scheme_dark 指向本方案。</p>
+    <pre class="yaml"><span class="c"># B 暗夜石墨（深色专用，可直接当 style/color_scheme 用）</span>
+<span class="k">preset_color_schemes/graphite_night</span>:
+  name: 暗夜石墨
+  back_color: 0x23201F          <span class="c"># #1F2023 → BGR</span>
+  border_color: 0x3A3433        <span class="c"># #33343A → BGR</span>
+  fore_color: 0xE0DAD8          <span class="c"># #D8DAE0 → BGR</span>
+  text_color: 0xE0DAD8
+  hilited_back_color: 0x40312B  <span class="c"># #2B3140 → BGR</span>
+  hilited_text_color: 0xF7A27A  <span class="c"># #7AA2F7 → BGR</span>
+  label_color: 0x80706B
+  comment_text_color: 0xA08F8A
+  candidate_text_color: 0xE0DAD8
+  hilited_candidate_text_color: 0xF7A27A
+  hilited_candidate_back_color: 0x40312B
+  hilited_comment_text_color: 0xB09A8F</pre>
+  </div>
+
+  <!-- C 宣纸朱砂 -->
+  <div class="card">
+    <span class="tag">C · 新颖</span>
+    <h2>宣纸朱砂</h2>
+    <p class="pitch">暖纸底、墨色文字、朱砂红高亮——中文输入法少见的东方纸感，但配色饱和度压得很低，日常用不跳戏。输入中文时气质最对。</p>
+    <div class="win" style="background:#faf6ee;border-color:#e3dac8;color:#3b3a36;">
+      <div class="preedit"><span class="raw" style="color:#6b6558;">nihao</span></div>
+      <div class="cands">
+        <span class="cand hilited" style="background:#f0e7d6;color:#b03a2e;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+        <span class="cand"><span class="label" style="color:#a89f8d;">2.</span><span class="word">你号</span></span>
+        <span class="cand"><span class="label" style="color:#a89f8d;">3.</span><span class="word">尼好</span></span>
+        <span class="cand"><span class="label" style="color:#a89f8d;">4.</span><span class="word">泥嚎</span></span>
+      </div>
+    </div>
+    <p class="dark-note">深色模式建议：墨底（#26241F）+ 朱砂高亮即可，需要的话我补一份。</p>
+    <pre class="yaml"><span class="c"># C 宣纸朱砂</span>
+<span class="k">preset_color_schemes/paper_cinnabar</span>:
+  name: 宣纸朱砂
+  back_color: 0xEEF6FA          <span class="c"># #FAF6EE → BGR</span>
+  border_color: 0xC8DAE3        <span class="c"># #E3DAC8 → BGR</span>
+  fore_color: 0x363A3B          <span class="c"># #3B3A36 → BGR</span>
+  text_color: 0x58656B          <span class="c"># #6B6558 → BGR（预编辑弱化）</span>
+  hilited_back_color: 0xD6E7F0  <span class="c"># #F0E7D6 → BGR</span>
+  hilited_text_color: 0x2E3AB0  <span class="c"># #B03A2E → BGR</span>
+  label_color: 0x8D9FA8
+  comment_text_color: 0x74848C
+  candidate_text_color: 0x363A3B
+  hilited_candidate_text_color: 0x2E3AB0
+  hilited_candidate_back_color: 0xD6E7F0
+  hilited_comment_text_color: 0x84748C</pre>
+  </div>
+
+  <!-- D 极简灰调 -->
+  <div class="card">
+    <span class="tag">D · 中性</span>
+    <h2>极简灰调</h2>
+    <p class="pitch">接近 Linear/Notion 的中性浅灰：无彩背景，唯一的颜色是靛紫高亮。信息密度优先，适合长时间盯着候选框不想要任何装饰的人。</p>
+    <div class="win" style="background:#f7f7f8;border-color:#e2e2e6;color:#26262b;">
+      <div class="preedit"><span class="raw" style="color:#5c5c64;">nihao</span></div>
+      <div class="cands">
+        <span class="cand hilited" style="background:#e9e9f2;color:#5b5bd6;"><span class="label">1.</span><span class="word">你好</span><span class="comment">nǐ hǎo</span></span>
+        <span class="cand"><span class="label" style="color:#9b9ba4;">2.</span><span class="word">你号</span></span>
+        <span class="cand"><span class="label" style="color:#9b9ba4;">3.</span><span class="word">尼好</span></span>
+        <span class="cand"><span class="label" style="color:#9b9ba4;">4.</span><span class="word">泥嚎</span></span>
+      </div>
+    </div>
+    <p class="dark-note">深色模式建议：#1B1B1E 底 + 同款靛紫高亮，需要的话我补一份。</p>
+    <pre class="yaml"><span class="c"># D 极简灰调</span>
+<span class="k">preset_color_schemes/quiet_gray</span>:
+  name: 极简灰调
+  back_color: 0xF8F7F7          <span class="c"># #F7F7F8 → BGR</span>
+  border_color: 0xE6E2E2        <span class="c"># #E2E2E6 → BGR</span>
+  fore_color: 0x2B2626          <span class="c"># #26262B → BGR</span>
+  text_color: 0x645C5C          <span class="c"># #5C5C64 → BGR（预编辑弱化）</span>
+  hilited_back_color: 0xF2E9E9  <span class="c"># #E9E9F2 → BGR</span>
+  hilited_text_color: 0xD65B5B  <span class="c"># #5B5BD6 → BGR</span>
+  label_color: 0xA49B9B
+  comment_text_color: 0x8E8585
+  candidate_text_color: 0x2B2626
+  hilited_candidate_text_color: 0xD65B5B
+  hilited_candidate_back_color: 0xF2E9E9
+  hilited_comment_text_color: 0x858E85</pre>
+  </div>
+
+</div>
+
+<footer>
+  <b>应用方式</b>：选定方向后告诉我（可以说「A」「C+B 深色」这样混搭），我把配色写入
+  <code>%APPDATA%\Rime\weasel.custom.yaml</code> 的 <code>patch</code> 里并重新部署。
+  深浅双模式用 <code>style/color_scheme</code> + <code>style/color_scheme_dark</code> 成对指定，Windows 深色模式切换时自动跟随。<br>
+  <b>可选加料</b>：候选框半透明（back_color 加 Alpha 通道）、圆角改直角、字号调大、注释（拼音）隐藏。
+</footer>
+
+</body>
+</html>
