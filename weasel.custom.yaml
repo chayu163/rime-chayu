@@ -1,0 +1,135 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.17.4
+  generator: "Weasel::UIStyleSettings"
+  modified_time: "Sat Sep  5 22:31:34 2026"
+  rime_version: 1.13.1
+patch:
+  "preset_color_schemes/dianqing_glass":
+    author: custom
+    back_color: 0xD11F1610
+    border_color: 0x40E1D567
+    candidate_text_color: 0xECE7DE
+    comment_text_color: 0x7A6E5E
+    fore_color: 0xECE7DE
+    hilited_back_color: 0x29E1D567
+    hilited_candidate_back_color: 0x29E1D567
+    hilited_candidate_text_color: 0xE1D567
+    hilited_comment_text_color: 0xE4DD9F
+    hilited_text_color: 0xE1D567
+    label_color: 0x7A6E5E
+    name: "茶鱼·靛青夜航"
+    text_color: 0xA0937E
+  "preset_color_schemes/feicui_glass":
+    author: custom
+    back_color: 0xB2F7FCF0
+    border_color: 0x99FFFFFF
+    candidate_text_color: 0x343B23
+    comment_text_color: 0x8F9A7E
+    fore_color: 0x343B23
+    hilited_back_color: 0x24779F0E
+    hilited_candidate_back_color: 0x24779F0E
+    hilited_candidate_text_color: 0x668A0B
+    hilited_comment_text_color: 0x8CA94F
+    hilited_text_color: 0x668A0B
+    label_color: 0x8F9A7E
+    name: "茶鱼·翡翠汽水"
+    text_color: 0x6E7A5A
+  "preset_color_schemes/moyu_glass":
+    author: custom
+    back_color: 0xC7161312
+    border_color: 0x29FFFFFF
+    candidate_text_color: 0xEBE6E4
+    comment_text_color: 0x82746E
+    fore_color: 0xEBE6E4
+    hilited_back_color: 0x33F7A27A
+    hilited_candidate_back_color: 0x33F7A27A
+    hilited_candidate_text_color: 0xFFB38F
+    hilited_comment_text_color: 0xE0B49F
+    hilited_text_color: 0xFFB38F
+    label_color: 0x82746E
+    name: "茶鱼·墨玉玻璃"
+    text_color: 0xAEA29B
+  "preset_color_schemes/songyun_paper":
+    author: custom
+    back_color: 0xECF5F9
+    border_color: 0xC8DCE6
+    candidate_text_color: 0x30383A
+    comment_text_color: 0x8B9FA8
+    fore_color: 0x30383A
+    hilited_back_color: 0xECF5F9
+    hilited_candidate_back_color: 0xECF5F9
+    hilited_candidate_text_color: 0x2E3AB0
+    hilited_comment_text_color: 0x7880C0
+    hilited_text_color: 0x2E3AB0
+    label_color: 0x8B9FA8
+    name: "茶鱼·宋韵纸本"
+    text_color: 0x70828A
+  "preset_color_schemes/wuling_glass":
+    author: custom
+    back_color: 0xB8FFFFFF
+    border_color: 0xA6FFFFFF
+    candidate_text_color: 0x39342F
+    comment_text_color: 0x9D958C
+    fore_color: 0x39342F
+    hilited_back_color: 0x24DF6E3D
+    hilited_candidate_back_color: 0x24DF6E3D
+    hilited_candidate_text_color: 0xDF6B2F
+    hilited_comment_text_color: 0x88A4C8
+    hilited_text_color: 0xDF6B2F
+    label_color: 0x9D958C
+    name: "茶鱼·雾岭玻璃"
+    text_color: 0x60554A
+  "preset_color_schemes/xiangya_roman":
+    author: custom
+    back_color: 0xF5FAFB
+    border_color: 0xCCDCE2
+    candidate_text_color: 0x2C3133
+    comment_text_color: 0x92A3A9
+    fore_color: 0x2C3133
+    hilited_back_color: 0xE0EDF2
+    hilited_candidate_back_color: 0xE0EDF2
+    hilited_candidate_text_color: 0x3F6F8C
+    hilited_comment_text_color: 0x3F6F8C
+    hilited_text_color: 0x3F6F8C
+    label_color: 0x92A3A9
+    name: "茶鱼·象牙白新罗马"
+    text_color: 0x66747A
+  "preset_color_schemes/xuesong_seal":
+    author: custom
+    back_color: 0xFFFFFF
+    border_color: 0xEECEEC
+    candidate_text_color: 0x1E1C1C
+    comment_text_color: 0xACA5A5
+    fore_color: 0x1E1C1C
+    hilited_back_color: 0xF0F1FB
+    hilited_candidate_back_color: 0xF0F1FB
+    hilited_candidate_text_color: 0x3A3EC7
+    hilited_comment_text_color: 0xA0968E
+    hilited_text_color: 0x3A3EC7
+    label_color: 0xACA5A5
+    name: "茶鱼·雪松印石"
+    text_color: 0x908A8A
+  "preset_color_schemes/yanzhi_glass":
+    author: custom
+    back_color: 0xCC1E161E
+    border_color: 0x47B3A3F2
+    candidate_text_color: 0xE6E4F0
+    comment_text_color: 0x80748A
+    fore_color: 0xE6E4F0
+    hilited_back_color: 0x2EB3A3F2
+    hilited_candidate_back_color: 0x2EB3A3F2
+    hilited_candidate_text_color: 0xB3A3F2
+    hilited_comment_text_color: 0xF2C3CE
+    hilited_text_color: 0xB3A3F2
+    label_color: 0x80748A
+    name: "茶鱼·胭脂暮色"
+    text_color: 0xA29AB3
+  "style/color_scheme": wuling_glass
+  "style/color_scheme_dark": moyu_glass
+  "style/comment_font_face": "Times New Roman"
+  "style/comment_font_point": 11
+  "style/font_face": "Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:30:39, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Times New Roman, PingFang SC, Noto Sans SC, Microsoft YaHei, DengXian, Segoe UI Emoji, Noto Color Emoji, Segoe UI Symbol"
+  "style/font_point": 12
+  "style/label_font_face": "Times New Roman"
+  "style/label_font_point": 12
